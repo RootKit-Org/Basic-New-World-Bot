@@ -3,6 +3,9 @@ Watch the video! - https://www.youtube.com/watch?v=ixOkG0h6SjI
 
 Join teh Discord - https://discord.com/invite/YwMqW5P8ZN
 
+### Known Bug(s)... I mean Features
+- Works out of the box when being ran at 1920x1080. May need tweeking at other resolutions (Thanks @[PC/SEA]sniperSHOT)
+
 ### Prereqs
 Make sure you have a pet Python - https://www.python.org/
 
