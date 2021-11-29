@@ -13,6 +13,8 @@ Make sure you pip install the following packages
 ```
 pip install PyAutoGUI
 pip install PyDirectInput
+pip install Pillow
+pip install opencv-python
 ```
 
 New World must be installed and running..... But you know this already right?

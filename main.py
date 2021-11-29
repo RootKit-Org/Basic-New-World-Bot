@@ -30,6 +30,9 @@ def main():
     pyautogui.click()
     time.sleep(.1)
 
+    # Auto Run Key
+    autowalkKey = '='
+
     # Seconds to move foward
     fowardMoveTotal = 20
 
@@ -54,7 +57,7 @@ def main():
             continue
 
         # Do I got to explain?
-        pyautogui.press('=')
+        pyautogui.press(autowalkKey)
 
         # Randomly move foward 0 - 1.5 seconds
         temp = 1.5 * random.random()
@@ -62,7 +65,7 @@ def main():
         time.sleep(temp)
 
         # Brah, you know
-        pyautogui.press('=')
+        pyautogui.press(autowalkKey)
 
         # Flippy flip if you hitty hit the max move time (fowardMoveTotal)
         if currentFoward >= fowardMoveTotal:
@@ -73,9 +76,9 @@ def main():
             pydirectinput.move(flipMouseMove * flip, 1, relative=True)
 
             # Move Foward 1.5 secs
-            pyautogui.press('=')
+            pyautogui.press(autowalkKey)
             time.sleep(1.5)
-            pyautogui.press('=')
+            pyautogui.press(autowalkKey)
 
             # Move the mouse 90 degrees
             pydirectinput.move(flipMouseMove * flip, 1, relative=True)
