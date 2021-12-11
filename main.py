@@ -2,12 +2,15 @@ import pyautogui
 import pydirectinput
 import time
 import random
+import mss
+import numpy as np
+from PIL import Image
+import gc
 
 def main():
     """
     Main function for the program
     """
-
     # Finds all Windows with the title "New World"
     newWorldWindows = pyautogui.getWindowsWithTitle("New World")
 
@@ -31,7 +34,7 @@ def main():
     time.sleep(.1)
 
     # Auto Run Key
-    autowalkKey = '='
+    autowalkKey = '0'
 
     # Seconds to move foward
     fowardMoveTotal = 20
@@ -43,51 +46,83 @@ def main():
     flip = 1
 
     # Turn 90 degrees, value will be different for you, im on a 4k monitor
-    flipMouseMove = 2000
+    flipMouseMove = 3500
+
+    # If the bot has stopped moving
+    stopped = False
 
     # Making tuple with data from the window for later use
     region = (newWorldWindow.left, newWorldWindow.top, newWorldWindow.width, newWorldWindow.height)
+    mssRegion = {"mon": 1, "top": newWorldWindow.top, "left": newWorldWindow.left + round(newWorldWindow.width/3), "width": round(newWorldWindow.width/3)*2, "height": newWorldWindow.height}
+
+    # Prep screenshots, walk forward and log time
+    sct = mss.mss()
+    pyautogui.press(autowalkKey)
+    startTime = time.time()
 
     # Main bot loop, runs forever use CTRL+C to turn it off
     while True:
+        # Get Screenshot and reset unstuck tracker
+        sctImg = Image.fromarray(np.array(sct.grab(mssRegion)))
+        stuckTracker = 0
+
         # Find that image on screen, in that region, with a confidence of 65%
-        if pyautogui.locateOnScreen("imgs/e0.png", grayscale=True, confidence=.65, region=region) is not None:
+        if pyautogui.locate("imgs/e0.png", sctImg, grayscale=True, confidence=.8) is not None:
+            # If not stopped, stop
+            if not stopped:
+                pyautogui.press(autowalkKey)
+
+            stopped = True
             pyautogui.press('e')
-            time.sleep(1)
+            print("Pressing e")
+            time.sleep(1.2)
+
+            # Get a new Screenshot
+            sctImg = Image.fromarray(np.array(sct.grab(mssRegion)))
+
+            # Check if the 'q' image is on screen
+            while pyautogui.locate("imgs/1.png", sctImg, grayscale=True, confidence=.8) is None:
+                time.sleep(.5)
+                sctImg = Image.fromarray(np.array(sct.grab(mssRegion)))
+                print("Waiting...")
+                gc.collect()
+
+                # If stuckTracker gets to 15, move the mouse
+                if stuckTracker == 15:
+                    pydirectinput.move(5, 0, relative=True)
+                    stuckTracker = 0
+
+                stuckTracker += 1
+
+            print("Done waiting")
             continue
 
-        # Do I got to explain?
-        pyautogui.press(autowalkKey)
+        # If bot is stopped, make the bot move again
+        if stopped:
+            pyautogui.press(autowalkKey)
+            stopped = False
+            startTime = time.time()
 
-        # Randomly move foward 0 - 1.5 seconds
-        temp = 1.5 * random.random()
-        currentFoward += temp
-        time.sleep(temp)
-
-        # Brah, you know
-        pyautogui.press(autowalkKey)
+        # Calculated how much the bot has moved forward
+        currentFoward += (time.time() - startTime)
+        startTime = time.time()
 
         # Flippy flip if you hitty hit the max move time (fowardMoveTotal)
         if currentFoward >= fowardMoveTotal:
             # Reset the move foward
             currentFoward = 0
 
-            # Move the mouse 90 degrees
-            pydirectinput.move(flipMouseMove * flip, 1, relative=True)
-
-            # Move Foward 1.5 secs
-            pyautogui.press(autowalkKey)
-            time.sleep(1.5)
-            pyautogui.press(autowalkKey)
-
-            # Move the mouse 90 degrees
-            pydirectinput.move(flipMouseMove * flip, 1, relative=True)
+            for i in range(0, flipMouseMove, round(flipMouseMove/5)):
+                # Moving the mouse a 5th of the total move amount
+                pydirectinput.move(round(flipMouseMove/5) * flip, 0, relative=True)
+                # Wait for .3 seconds
+                time.sleep(.3)
 
             # Flippy flippy the value. Evil math.
             flip *= -1
 
-        # Sleeping for the animation
-        time.sleep(.1)
+        # Garbage man
+        gc.collect()
 
 
 # Runs the main function

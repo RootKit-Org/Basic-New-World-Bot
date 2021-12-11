@@ -15,6 +15,8 @@ pip install PyAutoGUI
 pip install PyDirectInput
 pip install Pillow
 pip install opencv-python
+pip install mss
+pip install numpy
 ```
 
 New World must be installed and running..... But you know this already right?
