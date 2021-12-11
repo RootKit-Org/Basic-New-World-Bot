@@ -34,7 +34,7 @@ def main():
     time.sleep(.1)
 
     # Auto Run Key
-    autowalkKey = '0'
+    autowalkKey = '='
 
     # Seconds to move foward
     fowardMoveTotal = 20
