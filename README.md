@@ -43,3 +43,7 @@ If you have python and the additional packages installed you are good to go. Loa
 
 **We are always looking for new Volunteers to join our Champions!
 If you have any ideas for videos or programs, let us know!**
+
+
+
+-Fixed so the "autorun" now works on SWERY keyboards (and maybe other keyboards) as well
