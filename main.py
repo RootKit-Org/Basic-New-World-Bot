@@ -46,7 +46,7 @@ def main():
     flip = 1
 
     # Turn 90 degrees, value will be different for you, im on a 4k monitor
-    flipMouseMove = 3500
+    flipMouseMove = 3000
 
     # If the bot has stopped moving
     stopped = False
@@ -57,7 +57,7 @@ def main():
 
     # Prep screenshots, walk forward and log time
     sct = mss.mss()
-    pyautogui.press(autowalkKey)
+    pydirectinput.press(autowalkKey)
     startTime = time.time()
 
     # Main bot loop, runs forever use CTRL+C to turn it off
@@ -70,7 +70,7 @@ def main():
         if pyautogui.locate("imgs/e0.png", sctImg, grayscale=True, confidence=.8) is not None:
             # If not stopped, stop
             if not stopped:
-                pyautogui.press(autowalkKey)
+               pydirectinput.press(autowalkKey)
 
             stopped = True
             pyautogui.press('e')
@@ -99,7 +99,7 @@ def main():
 
         # If bot is stopped, make the bot move again
         if stopped:
-            pyautogui.press(autowalkKey)
+            pydirectinput.press(autowalkKey)
             stopped = False
             startTime = time.time()
 
