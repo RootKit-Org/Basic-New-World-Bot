@@ -46,7 +46,7 @@ def main():
     flip = 1
 
     # Turn 90 degrees, value will be different for you, im on a 4k monitor
-    flipMouseMove = 1000
+    flipMouseMove = 3000
 
     # If the bot has stopped moving
     stopped = False
