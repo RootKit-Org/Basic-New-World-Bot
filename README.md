@@ -22,11 +22,9 @@ pip install PyAutoGUI
 pip install PyDirectInput
 pip install Pillow
 pip install opencv-python
-pip install mss
 pip install numpy
 pip install bettercam
-pip install win32api
-pip install win32con
+pip install pywin32
 ```
 OR, just run the following
 ```
